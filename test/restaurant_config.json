@@ -1,0 +1,75 @@
+{
+  "models": {
+    "text": "google/gemma-3-1b",
+    "image": "qwen2-vl-7b-instruct"
+  },
+  
+  "api": {
+    "endpoint": "http://localhost:1234/v1/chat/completions",
+    "timeout": 60
+  },
+  
+  "prompts": {
+    "text_system": "你是餐廳記帳助手，解析以下文字：\n\n輸入：\"{user_input}\"\n\n分類規則：\n【收入類】type=\"收入\"：\n- 現金/cash → 現金（已收）\n- 刷卡/card → 刷卡（應收）\n- 熊貓/panda/foodpanda → 熊貓（應收）\n- uber/ubereats → Uber（應收）\n- 團膳/團餐 → 團膳（應收）\n\n【支出類】type=\"支出\"：\n- 食材/菜/肉 → 食材（已付）\n- 房租/租金 → 房租（已付）\n- 水電/電費 → 水電（已付）\n\n回答格式（嚴格遵守，只輸出JSON）：\n{{\"transactions\": [{{\"type\": \"收入\", \"category\": \"Uber\", \"amount\": 1380, \"status\": \"應收\"}}]}}",
+    
+    "image_system": "你是餐廳記帳助手，分析收據圖片。\n\n任務：\n1. OCR讀取圖片文字\n2. 提取金額數字\n3. 識別類型和狀態\n\n分類規則：\n- 現金 → 已收\n- 刷卡 → 應收\n- 熊貓/foodpanda → 應收\n- Uber/ubereats → 應收\n- 團膳 → 應收\n- 食材/房租/水電 → 已付\n\n回答格式（嚴格遵守，只輸出JSON）：\n{\"transactions\": [{\"type\": \"收入\", \"category\": \"熊貓\", \"amount\": 1440, \"status\": \"應收\"}]}"
+  },
+  
+  "parameters": {
+    "text": {
+      "temperature": 0.1,
+      "max_tokens": 200,
+      "stop": ["\n\n", "說明：", "解釋：", "注意："]
+    },
+    "image": {
+      "temperature": 0.1,
+      "max_tokens": 300
+    }
+  },
+  
+  "settlement_rules": {
+    "現金": {
+      "delay_days": 0,
+      "status": "已收"
+    },
+    "刷卡": {
+      "delay_days": 2,
+      "status": "應收"
+    },
+    "熊貓": {
+      "delay_days": 7,
+      "status": "應收"
+    },
+    "Uber": {
+      "delay_days": 7,
+      "status": "應收"
+    },
+    "團膳": {
+      "delay_days": 30,
+      "status": "應收"
+    },
+    "食材": {
+      "delay_days": 0,
+      "status": "已付"
+    },
+    "房租": {
+      "delay_days": 0,
+      "status": "已付"
+    },
+    "水電": {
+      "delay_days": 0,
+      "status": "已付"
+    }
+  },
+  
+  "category_mapping": {
+    "現金": ["現金", "cash"],
+    "刷卡": ["刷卡", "card"],
+    "熊貓": ["熊貓", "panda", "foodpanda"],
+    "Uber": ["uber", "ubereats"],
+    "團膳": ["團膳", "團餐"],
+    "食材": ["食材", "菜", "肉"],
+    "房租": ["房租", "租金"],
+    "水電": ["水電", "電費"]
+  }
+}

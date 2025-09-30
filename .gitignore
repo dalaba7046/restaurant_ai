@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Claude Code
+.claude/
+
+# AI Models (CRITICAL - 這些檔案可能數GB)
+models/*
+!models/.gitkeep
+!models/README.md
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Test Data (images could be large or contain sensitive info)
+test/test_data/*
+!test/test_data/.gitkeep
+
+# Config with potential secrets
+config/*_local.json
+config/.env
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
