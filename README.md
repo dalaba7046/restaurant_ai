@@ -27,19 +27,46 @@
 ## 📂 專案結構建議
 
     restaurant_ai/
-    ├── data/                 # 測試數據與範例收據
-    ├── notebooks/            # 模型測試與原型開發 Jupyter Notebooks
-    ├── src/                  # 核心程式碼
-    │   ├── __init__.py
-    │   ├── text_module/      # NLP 處理 (gemma)
-    │   ├── vision_module/    # 圖像處理 (qwen2-vl)
-    │   ├── pipelines/        # 任務流程 (文字/圖片 -> JSON)
-    │   ├── utils/            # 工具函式 (格式轉換、日誌等)
-    │   └── config.py         # 系統設定
-    ├── tests/                # 測試程式
-    ├── requirements.txt      # 套件需求
-    ├── README.md             # 專案說明文件
-    └── LICENSE
+    ├── README.md
+    ├── requirements.txt
+    ├── requirements-dev.txt
+    ├── Dockerfile
+    ├── .gitignore
+    ├── .env.example
+    │
+    ├── config/
+    │   ├── settings.py          # 全域設定
+    │   └── model_config.yaml    # 模型參數
+    │
+    ├── src/
+    │   ├── models/              # 模型層 (Gemma, Qwen2-VL)
+    │   │   ├── text_model.py
+    │   │   └── image_model.py
+    │   │
+    │   ├── services/            # 應用邏輯
+    │   │   ├── inference.py     # 推理邏輯 (統一輸出 JSON)
+    │   │   └── classification.py
+    │   │
+    │   ├── api/                 # FastAPI API 層
+    │   │   ├── main.py
+    │   │   ├── routes/
+    │   │   │   ├── text.py
+    │   │   │   └── image.py
+    │   │   └── schemas.py
+    │   │
+    │   └── utils/               # 工具
+    │       ├── logger.py
+    │       └── helpers.py
+    │
+    ├── tests/
+    │   ├── test_models.py
+    │   ├── test_api.py
+    │   └── test_services.py
+    │
+    └── frontend/
+        ├── streamlit_app.py     # 簡單 Web UI
+        └── web/                 # (React/Vue 前端)
+
 
 ------------------------------------------------------------------------
 
